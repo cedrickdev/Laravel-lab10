@@ -10,35 +10,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('/blog')->name('blog.')->group(function () {
-
-    
-
-    Route::get('/{slug}-{id}', function (string $slug, string $id, Request $request) {
-        return [
-            "slug" => $slug,
-            "id" => $id
-        ];
-    })->where([
-                "id" => '[0-9]+',
-                "slug" => '[a-z0-9]\-'
-            ])->name('show');
-
-    Route::get('/', function (Request $request) {
-
-        return [
-            "link" => \route('blog.show', ['slug' => 'article', 'id' => 13]),
-        ];
-    })->name('index');
-
-});
-
-
-
-Route::controller(PostController::class)->group(function () {
-    Route::post('/create', 'create');
-    Route::get('/show', 'index');
-    Route::get('/show/{id}', 'show');
-    Route::post('/update/{id}', 'update');
-    Route::post('/delete/{id}', 'delete');
+Route::controller(PostController::class)->prefix('post')->name('post.')->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/{slug}-{id}', 'show')->where(["id" => '[0-9]+', "slug" => '[a-z0-9\-]+'])->name('show');
+    Route::post('/create', 'create')->name('create');
+    Route::post('/update/{id}', 'update')->name('update'); //post.update($id)
+    Route::post('/delete/{id}', 'delete')->name('delete'); //post.delete($id)
 });
