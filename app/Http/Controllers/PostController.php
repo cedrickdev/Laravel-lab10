@@ -28,7 +28,7 @@ class PostController extends Controller
 
     }
 
-    public function show(string $slug, int $id = null): RedirectResponse | View
+    public function show(string $slug, int $id): RedirectResponse | View
     {
         $post = $this->post->findOrFail($id);
         if($post->slug !== $slug){
@@ -52,7 +52,7 @@ class PostController extends Controller
 
     }
 
-    public function update(int $id = null)
+    public function update(int $id)
     {
 
         $updatedPost = $this->post->find($id);
@@ -68,7 +68,7 @@ class PostController extends Controller
         return $updatedPost;
     }
 
-    public function delete(int $id = null)
+    public function delete(int $id)
     {
         $deletedPost = $this->post->find($id);
         if (!$deletedPost) {
