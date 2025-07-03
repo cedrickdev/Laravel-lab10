@@ -41,6 +41,13 @@
 </nav>
 
      <div class="container">
+        
+      {{-- capture the success key in the session to display the alert --}}
+      @if(session('success'))
+          <div class="alert alert-success">
+            {{ session('success') }}</div>      
+      @endif
+
          @yield('content')
      </div>
 </body>
