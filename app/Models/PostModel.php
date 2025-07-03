@@ -6,6 +6,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @mixin IdeHelperPostModel
+ */
 class PostModel extends Model
 {
     protected $table = 'posts';
