@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PostModel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use \Illuminate\View\View;
 
 class PostController extends Controller
 {
@@ -17,18 +18,25 @@ class PostController extends Controller
         $this->post = new PostModel();
     }
 
-    public function index()
+    public function index(): View
     {
-        return $this->post::paginate();
+        $post = $this->post::paginate(1);
+
+        return view('blog.index',[
+            'posts' => $post
+        ]);
+
     }
 
-    public function show(string $slug, int $id = null): RedirectResponse | PostModel
+    public function show(string $slug, int $id = null): RedirectResponse | View
     {
         $post = $this->post->findOrFail($id);
         if($post->slug !== $slug){
-            return to_route('blog.show', ['slug' => $post->slug, 'id' => $post->id]);
+            return to_route('post.show', ['slug' => $post->slug, 'id' => $post->id]);
         }
-        return $post;
+        return view('blog.show', [
+            'post' => $post
+        ]); 
     }
 
     public function create()
