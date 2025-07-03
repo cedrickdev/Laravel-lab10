@@ -33,8 +33,12 @@ Route::prefix('/blog')->name('blog.')->group(function () {
 
 });
 
-Route::get('/create', [PostController::class, 'create']);
-Route::get('/show', [PostController::class, 'index']);
-Route::get('/show/{id}', [PostController::class, 'show']);
-Route::get('/update/{id}', [PostController::class, 'update']);
-Route::get('/delete/{id}', [PostController::class, 'delete']);
+
+
+Route::controller(PostController::class)->group(function () {
+    Route::post('/create', 'create');
+    Route::get('/show', 'index');
+    Route::get('/show/{id}', 'show');
+    Route::post('/update/{id}', 'update');
+    Route::post('/delete/{id}', 'delete');
+});
