@@ -32,7 +32,6 @@ class PostController extends Controller
 
     public function show(string $slug, PostModel $post): RedirectResponse | View
     {
-        $post = $this->post->findOrFail($post);
         if ($post->slug !== $slug) {
             return to_route('post.show', ['slug' => $post->slug, 'id' => $post->id]);
         }
@@ -43,14 +42,16 @@ class PostController extends Controller
 
     public function create()
     {
-       
-        return view('blog.create');
+         $post = new PostModel();
+        return view('blog.create', [
+            'post' => $post
+        ]);
     }
 
     public function store(PostFormValidationRequest $request)
     {
         $createdPost = $this->post->create($request->validated());
-        return redirect()->route('post.show', ['slug' => $createdPost->slug, 'id' => $createdPost->id])->with('success', 'le Blog a éte crée avec succes'); //with() property is then passed in the session which is captured in the view template to dosplay the alert
+        return redirect()->route('post.show', ['slug' => $createdPost->slug, 'post' => $createdPost->id])->with('success', 'le Blog a éte crée avec succes'); //with() property is then passed in the session which is captured in the view template to dosplay the alert
     }
 
     public function edit(PostModel $post ) :View{
